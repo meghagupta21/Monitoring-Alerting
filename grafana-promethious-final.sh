@@ -86,14 +86,14 @@ groups:
           summary: "Instance {{ $labels.instance }} is down"
           description: "Prometheus target {{ $labels.instance }} has been unreachable for more than 1 minute."
 
-      - alert: HighCPUUsage
-        expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 40
-        for: 2m
-        labels:
-          severity: critical
-        annotations:
-          summary: "High CPU usage detected on {{ $labels.instance }}"
-          description: "CPU usage > 40% for more than 2 minutes. VALUE = {{ $value }}%"
+     - alert: HighCPUUsage
+  expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 5
+  for: 2m
+  labels:
+    severity: warning
+  annotations:
+    summary: "CPU usage above 5% on {{ $labels.instance }}"
+    description: "CPU usage has been above 5% for more than 2 minutes. VALUE = {{ $value }}%"
 
       - alert: UnauthorizedRequests
         expr: increase(http_requests_total{status=~"401|403"}[5m]) > 0
